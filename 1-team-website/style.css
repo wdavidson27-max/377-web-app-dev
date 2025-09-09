@@ -28,3 +28,10 @@ img{
     font-size:30px;
     text-align:center;
 }
+
+button{
+    background-color: rgb(42, 108, 173);
+    color:beige;
+    font-size:14px;
+    text-decoration:none;
+}
