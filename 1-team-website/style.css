@@ -30,8 +30,9 @@ img{
 }
 
 button{
+    text-decoration:none;
     background-color: rgb(42, 108, 173);
     color:beige;
     font-size:14px;
-    text-decoration:none;
+    
 }
