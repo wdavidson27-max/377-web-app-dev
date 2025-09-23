@@ -6,48 +6,38 @@
     <title>Rectangle Formulas</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>   
     <script>
-        function calculateArea() {
+        function calculateStats() {
             
-            let height = $('#height').val();
-            let width = $('width').val();
-            let area = width * height;
+            var height = $('#height').val();
+            var width = $('#width').val();
+            var area = width * height;
+            var perimeter = 2 * height + 2 * width;
+
+            console.log('Area is:' + area);
+            console.log('Perimeter is:' + perimeter);
+
+            
+            $('#area').html('Area is: ' + area)
+            $('#perimeter').html('Perimeter is: ' + perimeter)
+            
          
         }
-
-
-        
     </script>
-
-
-
-
-
-
-
-
 </head>
-
 
     <body>
 
         <h1>Rectangle Formulas</h1>
 
-         Height: <input type="number" id="height" /><br />
-         Width: <input type="number" id="width" /><br />
+         Height: <input type="text" id="height" /><br />
+         Width: <input type="text" id="width" /><br />
 
-        <input type="button" value="Get Statistics" onclick="calculateArea()" />
-        <div id="Area"></div>
+        <Value></Value>
+        <input type="button" value="Get Statistics" onclick="calculateStats()" />
 
-
-
-
-
-
-
-
-
-
-
+        <p id="perimeter">Perimeter will enter here</p>
+        <p id="area">Area will enter here</p>
+        
 
     </body>
 
