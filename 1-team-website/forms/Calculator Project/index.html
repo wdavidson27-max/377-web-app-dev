@@ -11,8 +11,8 @@
 
         <h1>Velocity Calculator</h1>
 
-         Displacement: <input type="text" id="displacement" placeholder="Enter Displacement" /><br />
-         Time: <input type="text" id="time" placeholder="Enter time"/><br />
+         <input type="text" id="displacement" placeholder="Enter Displacement" /><br />
+         <input type="text" id="time" placeholder="Enter time"/><br />
 
         
         <input type="button" value="Find Velocity" onclick="calculateVelocity()" />
@@ -22,14 +22,28 @@
     
         <h1>Surface Area of a Pyramid</h1>
 
-        Base Length: <input type="text" id="baseLength" placeholder="Enter base length" /><br />
-        Base Width: <input type="text" id="baseWidth" placeholder="Enter base width" /><br />
-        Pyramid Height: <input type="text" id="pyramidHeight" placeholder="Enter pyramid height" /><br />
+        <input type="text" id="baseLength" placeholder="Enter base length" /><br />
+        <input type="text" id="baseWidth" placeholder="Enter base width" /><br />
+        <input type="text" id="baseHeight" placeholder="Enter pyramid height" /><br />
 
         <input type="button" value="Calculate surface area" onclick="calculateSurfaceArea()" />
-    
+        
+        <div id="baseArea"></div>
+        <div id="totalArea"></div>
         
     
+
+        <h1>Slope of a Line Calculator</h1>
+
+        <input type="text" id="x1" placeholder="Enter the first x-value" /><br />
+        <input type="text" id="y1" placeholder="Enter the first y-value" /><br />
+        <input type="text" id="x2" placeholder="Enter the second x-value" /><br />
+        <input type="text" id="y2" placeholder="Enter the second y-value" /><br />
+
+        <input type="button" value="Calculate slope" onclick="CalculateSlope()" />
+
+        
+        
     </body>
 
 
