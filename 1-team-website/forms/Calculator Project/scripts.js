@@ -6,7 +6,7 @@ function calculateVelocity() {
 
     var velocity = displacement / time;
 
-    $('#velocity').html('Your speed is: ' + velocity + 'meters per second');
+    $('#velocity').html('Your speed is: ' + velocity + ' meters per second');
 
 }
 
