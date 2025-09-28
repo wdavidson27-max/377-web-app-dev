@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale-1.0">
     <title>Math Calculations</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>   
     <script src="scripts.js"></script>
+    <script src="style.css"></script>
 </head>    
     <body>
 
-        <h1>Velocity Calculator</h1>
+        <h1>Speed Calculator</h1>
 
          <input type="text" id="displacement" placeholder="Enter Displacement" /><br />
          <input type="text" id="time" placeholder="Enter time"/><br />
@@ -29,6 +31,7 @@
         <input type="button" value="Calculate surface area" onclick="calculateSurfaceArea()" />
         
         <div id="baseArea"></div>
+
         <div id="totalArea"></div>
         
     
@@ -42,7 +45,7 @@
 
         <input type="button" value="Calculate slope" onclick="CalculateSlope()" />
 
-        
+        <div id="slope"></div>
         
     </body>
 

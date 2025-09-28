@@ -6,7 +6,7 @@ function calculateVelocity() {
 
     var velocity = displacement / time;
 
-    $('#velocity').html('Velocity is: ' + velocity);
+    $('#velocity').html('Your speed is: ' + velocity + 'meters per second');
 
 }
 
@@ -23,4 +23,20 @@ function calculateSurfaceArea() {
     var totalArea = baseArea + (perimBase / 2) * baseHeight;
 
     $('#totalArea').html('Total Surface Area is: ' + totalArea + " Square Units")
+}
+
+function CalculateSlope() {
+
+    var x1 = $('#x1').val();
+    var y1 = $('#y1').val();
+    var x2 = $('#x2').val();
+    var y2 = $('#y2').val();
+
+    var vertDist = y2 - y1;
+
+    var horizDist = x2 - x1;
+
+    var slope = vertDist / horizDist;
+
+    $('#slope').html('The Slope of your Line is: ' + slope);
 }
