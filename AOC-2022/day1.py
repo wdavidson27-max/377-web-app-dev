@@ -1,7 +1,9 @@
 file = open("day1.txt", "r")
 lines = file.readlines()
 
-max  = 0
+max1 = 0
+max2 = 0
+max3 = 0
 current = 0
 
 for line in lines:
@@ -13,4 +15,8 @@ for line in lines:
     else:
         current += int(line)        
 
-print('Part 1: ' + str(max))        
+print('Part 1: ' + str(max))      
+
+
+current = 0
+
