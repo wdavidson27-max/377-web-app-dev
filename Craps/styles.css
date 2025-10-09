@@ -1,29 +1,9 @@
-#background {
-    fill: #2db300;
-}
-
-#controls {
-    text-align: center;
-    width: 500px;
-}
-
-#message {
-    fill: #ff0000;
+body {
     font-family: Arial, sans-serif;
-    font-size: 18pt;
-    text-anchor: middle;
 }
 
-#point {
-    fill: #ffffff;
-    font-family: Arial, sans-serif;
-    font-size: 24pt;
-    text-anchor: middle;
-}
-
-#puck {
-    fill: #000000;
-    stroke: #ffffff;
+input, button {
+    font-size: 14pt;
 }
 
 .die {
@@ -36,4 +16,39 @@
     stroke: #000000;
     fill: #000000;
     visibility: hidden;
+}
+
+.spacer {
+    margin-left: 30px;
+}
+
+#background {
+    fill: #2db300;
+}
+
+#controls {
+    font-size: 14pt;
+    text-align: center;
+    width: 500px;
+}
+
+#message {
+    fill: #ff0000;
+    font-size: 18pt;
+    text-anchor: middle;
+}
+
+#point {
+    fill: #ffffff;
+    font-size: 24pt;
+    text-anchor: middle;
+}
+
+#puck {
+    fill: #000000;
+    stroke: #ffffff;
+}
+
+#winnings {
+    font-weight: bold;
 }
