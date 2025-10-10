@@ -11,10 +11,7 @@ for line in lines:
     print('Opponents throw: ' + throws[0])
     print('Results: ')
 
-    if myThrow == "A" and oppThrow == "Z" or myThrow == "B" and oppThrow == "X" or myThrow == "C" and oppThrow == "Y" :
-        points + 1
-    else:
-        myThrow ==    
+   
    
 
     
