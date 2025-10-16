@@ -10,64 +10,74 @@
     </head>
 
     <body>
-        <h1>Connect Four Game</h1>
+
+        <h1>Connect Four</h1>
 
 
         <svg width="1600" height="600">
 
             <rect id="background" x="325" y="0" width="800" height="600"/>
             
+        
+            <circle id="c0r0" cx="385" cy="50" r="40" stroke="black" stroke-width="4" fill="white"/>
+            <circle id="c1r0" cx="500" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c2r0" cx="615" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c3r0" cx="730" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c4r0" cx="845" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c5r0" cx="960" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c6r0" cx="1075" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
 
-            <circle id="row1" cx="385" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="500" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="615" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="730" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="845" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="960" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="1075" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c0r1" cx="385" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c1r1" cx="500" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c2r1" cx="615" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c3r1" cx="730" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c4r1" cx="845" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c5r1" cx="960" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c6r1" cx="1075" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
 
-            <circle id="row1" cx="385" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="500" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="615" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="730" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="845" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="960" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="1075" cy="150" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c0r2" cx="385" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c1r2" cx="500" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c2r2" cx="615" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c3r2" cx="730" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c4r2" cx="845" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c5r2" cx="960" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c6r2" cx="1075" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
 
-            <circle id="row1" cx="385" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="500" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="615" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="730" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="845" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="960" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="1075" cy="250" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c0r3" cx="385" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c1r3" cx="500" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c2r3" cx="615" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c3r3" cx="730" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c4r3" cx="845" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c5r3" cx="960" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c6r3" cx="1075" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
 
-            <circle id="row1" cx="385" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="500" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="615" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="730" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="845" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="960" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="1075" cy="350" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c0r4" cx="385" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c1r4" cx="500" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c2r4" cx="615" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c3r4" cx="730" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c4r4" cx="845" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c5r4" cx="960" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c6r4" cx="1075" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
 
-            <circle id="row1" cx="385" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="500" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="615" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="730" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="845" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="960" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="1075" cy="450" r="40" stroke="black" stroke-width="4" fill="white" />
-
-            <circle id="row1" cx="385" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="500" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="615" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="730" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="845" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="960" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
-            <circle id="row1" cx="1075" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c0r5" cx="385" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c1r5" cx="500" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c2r5" cx="615" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c3r5" cx="730" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c4r5" cx="845" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c5r5" cx="960" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
+            <circle id="c6r5" cx="1075" cy="550" r="40" stroke="black" stroke-width="4" fill="white" />
 
 
+           
+            <rect id="column0" width="90" height="1000" x="340" y="0" onclick="dropChip(0)" fill="transparent"/>
+            <rect id="column1" width="90" height="1000" x="455" y="0" onclick="dropChip(1)" fill="transparent"/>
+            <rect id="column2" width="90" height="1000" x="570" y="0" onclick="dropChip(1)" fill="transparent"/>
+            <rect id="column3" width="90" height="1000" x="685" y="0" onclick="dropChip(1)" fill="transparent"/>
+            <rect id="column4" width="90" height="1000" x="800" y="0" onclick="dropChip(1)" fill="transparent"/>
+            <rect id="column5" width="90" height="1000" x="915" y="0" onclick="dropChip(1)" fill="transparent"/>
+            <rect id="column6" width="90" height="1000" x="1030" y="0" onclick="dropChip(1)" fill="transparent"/>
 
+           
             
 
             
