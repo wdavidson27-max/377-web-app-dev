@@ -1,8 +1,11 @@
 var turn = false;
-
+var gameOver = false;
 
 
 function dropChip(column) {
+
+    if (gameOver) return;
+
     for (let row = 5; row > -1; row --) {
         
         console.log(row);
@@ -33,6 +36,8 @@ function checkForWinnerInColumn(color, column) {
         $('#c' + column + 'r4').attr("fill") == color &&
         $('#c' + column + 'r3').attr("fill") == color &&  
         $('#c' + column + 'r2').attr("fill") == color) {
+        alert(color + " Wins in a Column!");
+        gameOver = true;    
         return true;
         
     }
@@ -40,6 +45,8 @@ function checkForWinnerInColumn(color, column) {
         $('#c' + column + 'r3').attr("fill") == color &&
         $('#c' + column + 'r2').attr("fill") == color &&  
         $('#c' + column + 'r1').attr("fill") == color) {
+        alert(color + " Wins in a Column!");
+        gameOver = true;    
         return true;
         
     }
@@ -47,17 +54,22 @@ function checkForWinnerInColumn(color, column) {
         $('#c' + column + 'r2').attr("fill") == color &&
         $('#c' + column + 'r1').attr("fill") == color &&  
         $('#c' + column + 'r0').attr("fill") == color) {
+        alert(color + " Wins in a Column!");
+        gameOver = true;    
         return true;
         
     }
     return false;
 
 }
+
 function checkForWinnerinRow(color, row) {
     if ($('#c6r' + row).attr("fill") == color && 
         $('#c5r' + row).attr("fill") == color &&
         $('#c4r' + row).attr("fill") == color &&  
         $('#c3r' + row).attr("fill") == color) {
+        alert(color + " Wins in a Row!");
+        gameOver = true;    
         return true;
         
     }
@@ -65,6 +77,8 @@ function checkForWinnerinRow(color, row) {
         $('#c4r' + row).attr("fill") == color &&
         $('#c3r' + row).attr("fill") == color &&  
         $('#c2r' + row).attr("fill") == color) {
+        alert(color + " Wins in a Row!");
+        gameOver = true;    
         return true;
         
     }
@@ -72,6 +86,8 @@ function checkForWinnerinRow(color, row) {
         $('#c3r' + row).attr("fill") == color &&
         $('#c2r' + row).attr("fill") == color &&  
         $('#c1r' + row).attr("fill") == color) {
+        alert(color + " Wins in a Row!");
+        gameOver = true;    
         return true;
         
     }
@@ -79,6 +95,8 @@ function checkForWinnerinRow(color, row) {
         $('#c2r' + row).attr("fill") == color &&
         $('#c1r' + row).attr("fill") == color &&  
         $('#c0r' + row).attr("fill") == color) {
+        alert(color + " Wins in a Row!");
+        gameOver = true;    
         return true;
         
     }
@@ -86,73 +104,83 @@ function checkForWinnerinRow(color, row) {
 }
 
 function checkForWinnerDiagonalUR(color) {
-
-    if ($('#c0r0').attr("fill") == color && $('#c1r1').attr("fill") == color && $('#c2r2').attr("fill") == color && $('#c3r3').attr("fill") == color ||
-        ($('#c0r1').attr("fill") == color && $('#c1r2').attr("fill") == color && $('#c2r3').attr("fill") == color && $('#c3r4').attr("fill") == color) ||
-        ($('#c0r2').attr("fill") == color && $('#c1r3').attr("fill") == color && $('#c2r4').attr("fill") == color && $('#c3r5').attr("fill") == color) ||
-        ($('#c0r0').attr("fill") == color && $('#c1r1').attr("fill") == color && $('#c2r2').attr("fill") == color && $('#c3r3').attr("fill") == color) ||
-        ($('#c0r1').attr("fill") == color && $('#c1r2').attr("fill") == color && $('#c2r3').attr("fill") == color && $('#c3r4').attr("fill") == color) ||
-        ($('#c0r2').attr("fill") == color && $('#c1r3').attr("fill") == color && $('#c2r4').attr("fill") == color && $('#c3r5').attr("fill") == color) ||
-        ($('#c0r0').attr("fill") == color && $('#c1r1').attr("fill") == color && $('#c2r2').attr("fill") == color && $('#c3r3').attr("fill") == color) ||
-        ($('#c0r1').attr("fill") == color && $('#c1r2').attr("fill") == color && $('#c2r3').attr("fill") == color && $('#c3r4').attr("fill") == color) ||
-        ($('#c0r2').attr("fill") == color && $('#c1r3').attr("fill") == color && $('#c2r4').attr("fill") == color && $('#c3r5').attr("fill") == color) ||
-        ($('#c0r0').attr("fill") == color && $('#c1r1').attr("fill") == color && $('#c2r2').attr("fill") == color && $('#c3r3').attr("fill") == color) ||
-        ($('#c0r1').attr("fill") == color && $('#c1r2').attr("fill") == color && $('#c2r3').attr("fill") == color && $('#c3r4').attr("fill") == color) ||
-        ($('#c0r2').attr("fill") == color && $('#c1r3').attr("fill") == color && $('#c2r4').attr("fill") == color && $('#c3r5').attr("fill") == color) ) {
-        return true;
-
+    for (let c = 0; c <= 3; c++) {
+        for (let r = 0; r <= 2; r++) {
+            if ($('#c' + c + 'r' + r).attr("fill") == color &&
+                $('#c' + (c + 1) + 'r' + (r + 1)).attr("fill") == color &&
+                $('#c' + (c + 2) + 'r' + (r + 2)).attr("fill") == color &&
+                $('#c' + (c + 3) + 'r' + (r + 3)).attr("fill") == color) {
+                alert(color + " Wins Diagonally!");
+                gameOver = true;
+                return true;
+            }
         }
-        return false;
-    }   
+    }
+    return false;
+}
 
-
-    //if ($('#c0r0' && '#c1r1' && '#c2r2' && '#c3r3').attr("fill") == color ||
-    //    $('#c0r1' && '#c1r2' && '#c2r3' && '#c3r4').attr("fill") == color ||
-    //    $('#c0r2' && '#c1r3' && '#c2r4' && '#c3r5').attr("fill") == color ||
-    //    $('#c1r0' && '#c2r1' && '#c3r2' && '#c4r3').attr("fill") == color ||
-    //    $('#c1r1' && '#c2r2' && '#c3r3' && '#c4r4').attr("fill") == color ||
-    //    $('#c1r2' && '#c2r3' && '#c3r4' && '#c4r5').attr("fill") == color ||
-    //    $('#c2r0' && '#c3r1' && '#c4r2' && '#c5r3').attr("fill") == color ||
-    //    $('#c2r1' && '#c3r2' && '#c4r3' && '#c5r4').attr("fill") == color ||
-    //    $('#c2r2' && '#c3r3' && '#c4r4' && '#c5r5').attr("fill") == color ||
-    //    $('#c3r0' && '#c4r1' && '#c5r2' && '#c6r3').attr("fill") == color ||
-    //    $('#c3r1' && '#c4r2' && '#c5r3' && '#c6r4').attr("fill") == color ||
-    //    $('#c3r2' && '#c4r3' && '#c5r4' && '#c6r5').attr("fill") == color) {
-    //    return true;
-    //
-    //}
-    //return false;    
-//}
-
-//function checkForWinnerDiagonalUL(color) {
-    //if ($('#c6r0' && '#c5r1' && '#c4r2' && '#c3r3').attr("fill") == color) {
-        //return true;
-
-    //}
-    //return false;
-//}
+function checkForWinnerDiagonalUL(color) {
+    for (let c = 3; c < 7; c++) {
+        for (let r = 0; r <= 2; r++) {
+            if ($('#c' + c + 'r' + r).attr("fill") == color &&
+                $('#c' + (c - 1) + 'r' + (r + 1)).attr("fill") == color &&
+                $('#c' + (c - 2) + 'r' + (r + 2)).attr("fill") == color &&
+                $('#c' + (c - 3) + 'r' + (r + 3)).attr("fill") == color) {
+                alert(color + " Wins Diagonally!");
+                gameOver = true;
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 
 function checkForWinner(color) {
     for (let column = 0; column < 7; column++) {
         if (checkForWinnerInColumn(color, column)) {
-            console.log("You won in col");
-            break;
+            console.log("You won in column " + column);
+            return;
         }
     }
     for (let row = 0; row < 6; row++) {
         if (checkForWinnerinRow(color, row)) {
-            console.log("You won in row");
-            break;
+            console.log("You won in row " + row);
+            return;
         }
-    } 
+    }
     if (checkForWinnerDiagonalUR(color)) {
         console.log("You win Diagonal to Right");
+        return;
     }
-    //if (checkForWinnerDiagonalUL(color)) {
-       // console.log("You win Diagonal to Left")
-   // }
+    if (checkForWinnerDiagonalUL(color)) {
+        console.log("You win Diagonal to Left");
+        return;
+    }
 }
 
+function resetBoard() {
+    for (let c = 0; c < 7; c++) {
+        for (let r = 0; r < 6; r++) {
+            $('#c' + c + 'r' + r).attr("fill", "white");
+        }
+    }
+    turn = false;
+    gameOver = false;
+    console.log("Board reset!");
+}
+
+window.onload = function() {
+    alert(
+        "Welcome to Connect Four!\n\n" +
+        "How to Play:\n" +
+        "1 - Click on a column to drop your chip.\n" +
+        "2 - This is a two player game, every time you drop a chip the player switches\n" +
+        "3 - Player 1 is yellow and Player 2 is red. Yellow goes first \n"+
+        "4 - Get four in a row (vertically, horizontally, or diagonally) to win!\n\n" +
+        "5 - After someone wins, click the reset board button to play again" +
+        " Click OK to start the game. Good luck!"
+    );
+};
 
 
