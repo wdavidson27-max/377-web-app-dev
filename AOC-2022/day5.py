@@ -22,11 +22,17 @@ for line in lines:
     num_blocks = int(words[1])
     source = int(words[3]) - 1
     destination = int(words[5]) - 1
+    pt2List = []
+    
     
     for i in range(num_blocks):
         block = stacks[source].pop()
-        stacks[destination].append(block)
-
+        pt2List.append(block)
+    
+    pt2List.reverse()
+    for j in range(len(pt2List)):
+        stacks[destination].append(pt2List[j])
+        
 for i in range(len(stacks)):
     print(stacks[i][-1], end='')
 
