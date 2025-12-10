@@ -23,8 +23,9 @@ print(grid[0][2])
 
 total = 0
 
-for row in grid:
-    for column in row:
-        if column == '@' and :
-            total += 1
-print(total)
+for r in range(len(grid)):
+    print(r)
+    print(grid[r])
+    for c in range(len(grid[0])):
+        print(c)
+        print(grid[r][c])
