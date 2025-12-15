@@ -1,24 +1,28 @@
-file = open("day1.txt", "r")
+file = open('day1.txt', 'r')
 lines = file.readlines()
 
-totalzero = 0
-current = 50
+startpoint = 50
+count1 = 0
+count2 = 0
+
 for line in lines:
     line = line.strip()
+    
+    rotations = int(line[1:])
 
-    distance = int(line[1:])
+    direction = line[0]
 
-    if line[0] == 'R':
-        current += distance
-    elif line[0] == 'L':
-        current -= distance
+    for i in range(rotations):
+        if direction == "L":
+            startpoint = (startpoint - 1 + 100) % 100
+        else:
+            startpoint = (startpoint + 1) % 100
+        if startpoint == 0:
+            count2 += 1
+    if startpoint == 0:
+        count1 += 1
 
-    current %= 100
-
-    if current == 0:
-        totalzero += 1
-
-print(current)
-print(totalzero)
+print(count1)    
+print(count2)
 
 

@@ -26,7 +26,33 @@ for id in ids:
             total += 1
             break
         
-print(total)             
+print(total)     
+
+#Part 2 code
+
+ranges.sort()
+merge = []
+current_start = ranges[0][0]
+current_end = ranges[0][1]
+
+for r in ranges[1:]:
+    start = r[0]
+    end = r[1]
+    if start <= current_end + 1:
+        if end > current_end:
+            current_end = end
+    else:
+        merge.append([current_start, current_end])
+        current_start = start
+        current_end = end
+
+merge.append([current_start, current_end])
+
+total = 0
+for r in merge:
+    total += r[1] - r[0] + 1
+print(total)
+
     
        
             

@@ -1,11 +1,9 @@
-FILE = 'day2.txt'
-
-file = open(FILE, 'r')
-ranges = file.readlines()[0].split(',')
+file = open('day2.txt', 'r')
+line = file.readlines()[0].strip(",")
 
 total_1 = 0
 total_2 = 0
-
+ranges = line.split(",")
 for the_range in ranges:
     start, end = (int(x) for x in the_range.split('-'))
     for n in range(start, end + 1):

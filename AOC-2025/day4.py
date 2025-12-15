@@ -14,18 +14,41 @@ print(grid)
 print(grid[0]) 
 print(grid[0][2])
 
-
-# We have to make a nested loop to go through the rows and 
-# columns in the grid so we can see if a roll of paper can
-# be accessed. Then we can keep all of the rolls that can be
-# accessed in a variable called total and then at the end print
-# out the total 
-
 total = 0
+rows = len(grid)
+cols = len(grid[0])
 
-for r in range(len(grid)):
-    print(r)
-    print(grid[r])
-    for c in range(len(grid[0])):
-        print(c)
-        print(grid[r][c])
+for r in range(rows):
+    for c in range(cols):
+
+        if grid[r][c] != "@":
+            continue
+
+        neighbors = 0
+
+        if r > 0 and c > 0 and grid[r-1][c-1] == "@":
+            neighbors += 1
+        if r > 0 and grid[r-1][c] == "@":
+            neighbors += 1
+        if r > 0 and c < cols-1 and grid[r-1][c+1] == "@":
+            neighbors += 1
+        if c > 0 and grid[r][c-1] == "@":
+            neighbors += 1
+        if c < cols-1 and grid[r][c+1] == "@":
+            neighbors += 1
+        if r < rows-1 and c > 0 and grid[r+1][c-1] == "@":
+            neighbors += 1
+        if r < rows-1 and grid[r+1][c] == "@":
+            neighbors += 1
+        if r < rows-1 and c < cols-1 and grid[r+1][c+1] == "@":
+            neighbors += 1
+        if neighbors < 4:
+            total += 1
+
+print(total)
+
+
+
+
+
+   
