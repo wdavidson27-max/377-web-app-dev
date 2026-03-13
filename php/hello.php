@@ -19,6 +19,25 @@
             }    
                 
             echo $count;
+
+            $firstName = "Will";
+            $lastName = "Davidson";
+
+            $fullName = $firstName . " " .  $lastName;
+
+            echo $fullName;
+
+            // String Concatenation
+            echo "<p>" . $fullName . " is in Web App Development</p>";
+            // String interpolation
+            echo "<p>$fullName is in Web App Development</p>";
+            // String interpolation only works within double quotes
+            ECHO "<p>case in-sensitive</p>";
+
+
+
+           
+
             
             ?>
 
