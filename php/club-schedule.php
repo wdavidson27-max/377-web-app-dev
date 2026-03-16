@@ -1,0 +1,23 @@
+<table>
+    <tr>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+    </tr>    
+    <tr>
+        <td>Practice</td>
+        <td>Practice</td>
+        <td>Practice</td>
+        <td>Practice</td>
+        <td>Practice</td>
+    </tr>
+    <tr>
+        <td>Practice</td>
+        <td>Practice</td>
+        <td>Practice</td>
+        <td>Practice</td>
+        <td>Practice</td>
+    </tr>
+
