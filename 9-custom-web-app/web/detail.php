@@ -46,63 +46,66 @@ if (isset($id))
 
 ?>
 
-<h2><?php echo isset($playername) ? $playername : "*** NEW PLAYER ***"; ?></h2>
+<h2><?php echo isset($playername) && $playername != "" ? $playername : "*** NEW PLAYER ***"; ?></h2>
+
+
+
 
 <form action="save.php" method="POST">
-    <input type="hidden" class="form-control" name="id" value="<?php echo $id; ?>">
+    <input type="hidden" class="form-control" name="id" id="id" value="<?php echo $id; ?>">
 
 
     <div class="mb-3">
         <label for="playername" class="form-label">Player</label>
-        <input type="text" class="form-control" name="playername" value="<?php echo $playername; ?>">
+        <input type="text" class="form-control" name="playername" id="playername" value="<?php echo $playername; ?>">
     </div>
 
     <div class="mb-3">
         <label for="team" class="form-label">Team</label>
-        <input type="text" class="form-control" name="team" value="<?php echo $team; ?>">
+        <input type="text" class="form-control" name="team" id="team" value="<?php echo $team; ?>">
     </div>
 
     <div class="mb-3">
         <label for="points" class="form-label">PPG</label>
-        <input type="text" class="form-control" name="points" value="<?php echo $points; ?>">
+        <input type="text" class="form-control" name="points" id="points" value="<?php echo $points; ?>">
     </div>
 
     <div class="mb-3">
         <label for="rebounds" class="form-label">RPG</label>
-        <input type="text" class="form-control" name="rebounds" value="<?php echo $rebounds; ?>">
+        <input type="text" class="form-control" name="rebounds" id="rebounds" value="<?php echo $rebounds; ?>">
     </div>
 
     <div class="mb-3">
         <label for="assists" class="form-label">APG</label>
-        <input type="text" class="form-control" name="assists" value="<?php echo $assists; ?>">
+        <input type="text" class="form-control" name="assists" id="assists" value="<?php echo $assists; ?>">
     </div>
 
     <div class="mb-3">
         <label for="blocks" class="form-label">BPG</label>
-        <input type="text" class="form-control" name="blocks" value="<?php echo $blocks; ?>">
+        <input type="text" class="form-control" name="blocks" id="blocks" value="<?php echo $blocks; ?>">
     </div>
 
     <div class="mb-3">
         <label for="steals" class="form-label">SPG</label>
-        <input type="text" class="form-control" name="steals" value="<?php echo $steals; ?>">
+        <input type="text" class="form-control" name="steals" id="steals" value="<?php echo $steals; ?>">
     </div>
 
     <div class="mb-3">
         <label for="fieldgoal" class="form-label">FG%</label>
-        <input type="text" class="form-control" name="fieldgoal" value="<?php echo $fieldgoal; ?>">
+        <input type="text" class="form-control" name="fieldgoal" id="fieldgoal" value="<?php echo $fieldgoal; ?>">
     </div>
 
     <div class="mb-3">
         <label for="threepoint" class="form-label">3PT%</label>
-        <input type="text" class="form-control" name="threepoint" value="<?php echo $threepoint; ?>">
+        <input type="text" class="form-control" name="threepoint" id="threepoint" value="<?php echo $threepoint; ?>">
     </div>
 
     <div class="mb-3">
         <label for="freethrow" class="form-label">FT%</label>
-        <input type="text" class="form-control" name="freethrow" value="<?php echo $freethrow; ?>">
+        <input type="text" class="form-control" name="freethrow" id="freethrow" value="<?php echo $freethrow; ?>">
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-primary" onclick="save()">Save</button>
     
     <!-- Delete button made with copilot -->
     <button type="submit"formaction="delete.php" formmethod="POST" class="btn btn-danger"
@@ -114,3 +117,44 @@ if (isset($id))
     <a href="index.php?content=list" class="btn btn-secondary" role="button">Cancel</a>
 
 </form>
+
+<script>
+
+function save() {
+    var settings = {
+        'async': true,
+        'url': 'save.php' +
+                '?id=' + $('#id').val() +
+                '&playername=' + $('#playername').val() +
+                '&team=' + $('#team').val() +
+                '&points=' + $('#points').val() +
+                '&rebounds=' + $('#rebounds').val() +
+                '&assists=' + $('#assists').val() +
+                '&blocks=' + $('#blocks').val() +
+                '&steals=' + $('#steals').val() +
+                '&fieldgoal=' + $('#fieldgoal').val() +
+                '&threepoint=' + $('#threepoint').val() +
+                '&freethrow=' + $('#freethrow').val(),
+        'method': 'POST',
+        'headers': {
+            'Cache-Control': 'no-cache'
+        }
+    };
+
+        
+    $.ajax(settings).done(function(response) {
+        // The response is the id for the newly created player
+        console.log(response);
+        if ($('#id').val() == "") {
+            $('#id').val(response);
+        }
+
+        $('#results').html('Player saved successfully!' + response);
+        showAlert('success', 'Success!', 'Player saved successfully!');
+    }).fail(function() {
+        $('#results').html('Error saving player.');
+        showAlert('danger', 'Error!', 'Error saving player.');
+    });
+}
+
+</script>

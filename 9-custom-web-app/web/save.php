@@ -42,7 +42,16 @@ else
     SQL;
 }
 
-
-$connection->query($sql);
-
-header('Location: index.php?content=list');
+try {
+    if ($connection->query($sql)) {
+        // Cant send data and respond code, so just send the data back to the client
+        // http_response_code(200);
+        $id = $connection->insert_id;
+        print($id);
+    }
+    else {
+        http_response_code(400);
+    }
+} catch (Exception $e) {
+    http_response_code(401);
+}   

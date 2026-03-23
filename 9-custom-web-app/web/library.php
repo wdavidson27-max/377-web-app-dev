@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 extract($_REQUEST);
 
 function get_connection()
