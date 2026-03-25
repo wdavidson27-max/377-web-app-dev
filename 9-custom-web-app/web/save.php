@@ -5,6 +5,7 @@ include("library.php");
 $connection = get_connection();
 
 $playername = $connection->real_escape_string($playername);
+$dob = $connection->real_escape_string($dob);
 $team = $connection->real_escape_string($team);
 $points = $connection->real_escape_string($points);
 $rebounds = $connection->real_escape_string($rebounds);
@@ -20,8 +21,8 @@ $sql = "";
 if ($id == "")
 {
     $sql =<<<SQL
-    INSERT INTO nbastats (stats_playername, stats_team, stats_points, stats_rebounds, stats_assists, stats_blocks, stats_steals, stats_fieldgoal, stats_threepoint, stats_freethrow)
-    VALUES('$playername', '$team', $points, $rebounds, $assists, $blocks, $steals, $fieldgoal, $threepoint, $freethrow)
+    INSERT INTO nbastats (stats_playername, stats_dob, stats_team, stats_points, stats_rebounds, stats_assists, stats_blocks, stats_steals, stats_fieldgoal, stats_threepoint, stats_freethrow)
+    VALUES('$playername', '$dob', '$team', $points, $rebounds, $assists, $blocks, $steals, $fieldgoal, $threepoint, $freethrow)
     SQL;
 }
 else
@@ -29,6 +30,7 @@ else
     $sql =<<<SQL
     UPDATE nbastats
         SET stats_playername = '$playername',
+            stats_dob = '$dob',
             stats_team = '$team',
             stats_points = $points,
             stats_rebounds = $rebounds,

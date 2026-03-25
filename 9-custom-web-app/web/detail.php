@@ -1,6 +1,7 @@
 <?php
 
 $playername = "";
+$dob = "";
 $team = "";
 $points = "";
 $rebounds = "";
@@ -30,6 +31,7 @@ if (isset($id))
 
     $id = $row["stats_id"];
     $playername = $row["stats_playername"];
+    $dob = $row["stats_dob"];
     $team = $row["stats_team"];
     $points = $row["stats_points"];
     $rebounds = $row["stats_rebounds"];
@@ -58,6 +60,12 @@ if (isset($id))
     <div class="mb-3">
         <label for="playername" class="form-label">Player</label>
         <input type="text" class="form-control" name="playername" id="playername" value="<?php echo $playername; ?>">
+    </div>
+
+
+    <div class="mb-3">
+        <label for="dob" class="form-label">Date of Birth</label>
+        <input type="text" class="form-control" name="dob" id="dob" value="<?php echo $dob; ?>">
     </div>
 
     <div class="mb-3">
@@ -126,6 +134,7 @@ function save() {
         'url': 'save.php' +
                 '?id=' + $('#id').val() +
                 '&playername=' + $('#playername').val() +
+                '&dob=' + $('#dob').val() +
                 '&team=' + $('#team').val() +
                 '&points=' + $('#points').val() +
                 '&rebounds=' + $('#rebounds').val() +

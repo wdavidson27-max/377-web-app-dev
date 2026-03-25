@@ -33,8 +33,11 @@ print ('</script>');
     var dataTable = $('#main').DataTable({
         data: data,
         columns: [
-            { data: "stats_playername" , title: "Player Name"},
-            { data: "stats_team", title: "Team" },
+            { data: "stats_playername" , title: "Player Name", render: function(data, type, row) {
+                return '<a href="index.php?content=detail&id=' + row.stats_id + '">' + data + '</a>';
+            }},
+            { data: "stats_dob", title: "Date of Birth" },
+            { data: "stats_team", title: "Team" },         
             { data: "stats_points", title: "PPG" },
             { data: "stats_rebounds", title: "RPG" },
             { data: "stats_assists", title: "APG" },
