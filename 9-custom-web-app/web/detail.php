@@ -46,7 +46,7 @@ if (isset($id))
 
 ?>
 
-<h2><?php echo isset($playername) && $playername != "" ? $playername : "*** NEW PLAYER ***"; ?></h2>
+<h2 id="header"><?php echo isset($playername) && $playername != "" ? $playername : "*** NEW PLAYER ***"; ?></h2>
 
 
 
@@ -149,10 +149,9 @@ function save() {
             $('#id').val(response);
         }
 
-        $('#results').html('Player saved successfully!' + response);
+        $('#header').html($('#playername').val());
         showAlert('success', 'Success!', 'Player saved successfully!');
     }).fail(function() {
-        $('#results').html('Error saving player.');
         showAlert('danger', 'Error!', 'Error saving player.');
     });
 }

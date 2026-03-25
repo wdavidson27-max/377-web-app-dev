@@ -4,6 +4,50 @@
 
 <h2>NBA Statistics<span id="player-count"></span></h2>
 
+<table id="main" class="stripe hover"></table>
+
+<?php
+
+$sql =<<<SQL
+SELECT * 
+FROM nbastats
+ORDER BY stats_playername
+SQL;
+
+$connection = get_connection();
+
+$rows = [];
+$result = $connection->query($sql);
+while ($row = $result->fetch_assoc())
+{
+    $rows[] = $row;
+}
+
+print ('<script>');
+print ('var data = ' . json_encode($rows, JSON_PARTIAL_OUTPUT_ON_ERROR) . ';');
+print ('</script>');
+
+?>
+
+<script>
+    var dataTable = $('#main').DataTable({
+        data: data,
+        columns: [
+            { data: "stats_playername" , title: "Player Name"},
+            { data: "stats_team", title: "Team" },
+            { data: "stats_points", title: "PPG" },
+            { data: "stats_rebounds", title: "RPG" },
+            { data: "stats_assists", title: "APG" },
+            { data: "stats_blocks", title: "BPG" },
+            { data: "stats_steals", title: "SPG" },
+            { data: "stats_fieldgoal", title: "FG%" },
+            { data: "stats_threepoint", title: "3P%" },
+            { data: "stats_freethrow", title: "FT%" }
+        ]
+    });
+</script>
+<hr>
+
 <a href='index.php?content=list'>All</a>
 
 <?php
@@ -37,7 +81,7 @@ for ($i = 0; $i < 26; $i++)
 
 <?php
 
-$connection = get_connection();
+
 
 if (!isset($sort))
 {
