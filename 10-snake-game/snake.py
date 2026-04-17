@@ -57,16 +57,16 @@ def animated_game_over(score):
     overlay = pygame.Surface((dis_width, dis_height))
     overlay.fill(black)
 
-    alpha = 0
+    box = 0
     box_y = -200  
 
     while True:
         dis.fill(blue)
 
         # This makes it fade in 
-        if alpha < 180:
-            alpha += 5
-        overlay.set_alpha(alpha)
+        if box < 180:
+            box += 5
+        overlay.set_alpha(box)
         dis.blit(overlay, (0, 0))
 
         # This makes it slide down
@@ -184,7 +184,7 @@ def gameLoop():
             foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0
             Length_of_snake += 1
 
-            current_speed += 1 
+            current_speed += 2
  
         clock.tick(current_speed)  
  
