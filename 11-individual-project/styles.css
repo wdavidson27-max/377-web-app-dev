@@ -88,6 +88,34 @@ body {
   transform: translate(-50%, -50%);
 }
 
+.deal-button {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+  min-width: 120px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd978, #e7b93f);
+  color: #2d2206;
+  font: inherit;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 140ms ease,
+    filter 140ms ease;
+}
+
+.deal-button:hover,
+.deal-button:focus-visible {
+  transform: translateX(-50%) translateY(-2px);
+  filter: brightness(1.04);
+  outline: none;
+}
+
 .deck-card {
   position: absolute;
   inset: 0;
@@ -204,24 +232,37 @@ body {
 
 .seat {
   position: absolute;
-  width: 150px;
+  width: 166px;
   padding: 12px 14px;
   display: grid;
-  gap: 2px;
+  gap: 6px;
   text-align: center;
   border-radius: 22px;
   background: rgba(8, 20, 29, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  cursor: pointer;
+  appearance: none;
+  font: inherit;
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.seat:hover,
+.seat:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255, 209, 102, 0.55);
+  background: rgba(12, 28, 40, 0.86);
+  outline: none;
 }
 
 .seat strong {
   font-size: 1rem;
-}
-
-.seat span:last-child {
-  color: var(--muted);
-  font-size: 0.9rem;
+  margin: 0;
+  pointer-events: none;
 }
 
 .seat-tag {
@@ -229,6 +270,38 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  pointer-events: none;
+}
+
+.seat-cards {
+  min-height: 48px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.mini-card {
+  width: 34px;
+  height: 48px;
+  border-radius: 8px;
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18);
+}
+
+.mini-card-back {
+  border: 2px solid rgba(255, 255, 255, 0.78);
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 58%),
+    linear-gradient(145deg, #0a2140, #0d2c54 45%, #07182c);
+  position: relative;
+}
+
+.mini-card-back::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .seat-1 {
@@ -284,6 +357,7 @@ body {
 
   .table-rim,
   .deck-stack,
+  .deal-button,
   .dealer-chip,
   .seat {
     position: static;
@@ -305,6 +379,11 @@ body {
     order: 1;
   }
 
+  .deal-button {
+    justify-self: center;
+    order: 2;
+  }
+
   .seat {
     min-height: 88px;
   }
@@ -314,6 +393,7 @@ body {
   }
 
   .deck-stack,
+  .deal-button,
   .dealer-chip {
     grid-column: 1 / -1;
   }
