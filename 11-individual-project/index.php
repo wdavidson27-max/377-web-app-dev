@@ -1,4 +1,6 @@
-<?php $seatCount = 8; ?>
+<?php
+$seatCount = 8;
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -53,13 +55,13 @@
       </section>
     </main>
 
-
-    
     <script>
       const dealEndpoint = "./deal.php";
       const dealButton = document.querySelector(".deal-button");
       const seats = document.querySelectorAll(".seat");
 
+
+// Player can now click on a seat and enter their name
       seats.forEach((seat) => {
         seat.addEventListener("click", () => {
           const currentName = seat.querySelector("strong").textContent.trim();
@@ -79,10 +81,11 @@
           seat.dataset.playerActive = cleanedName ? "true" : "false";
         });
       });
-
+// Deal Button
       dealButton.addEventListener("click", () => {
         const activeSeat = Array.from(seats).find((seat) => seat.dataset.playerActive === "true");
 
+// Will check if a there are any seats occupied
         if (!activeSeat) {
           window.alert("Add one player name to a seat before dealing.");
           return;
@@ -104,10 +107,9 @@
               return;
             }
 
-            activeSeat.querySelector(".seat-cards").append(
-              createFaceDownCard(),
-              createFaceDownCard()
-            );
+            for (let i = 0; i < data.cardCount; i += 1) {
+              activeSeat.querySelector(".seat-cards").append(createFaceDownCard());
+            }
           })
           .catch(() => {
             window.alert("Could not connect to the deal endpoint.");

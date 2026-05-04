@@ -1,0 +1,7 @@
+<?php for ($seat = 1; $seat <= $seatCount; $seat++): ?>
+                <option value="<?= $seat ?>" <?= $currentSeat === $seat ? 'selected' : '' ?>>
+                  Seat <?= $seat ?>
+                </option>
+              <?php endfor; ?>
+            </select>
+          </label>
