@@ -65,7 +65,7 @@ body {
 .dealer-chip {
   position: absolute;
   top: 23%;
-  right: 20%;
+  left: 80%;
   width: 52px;
   height: 52px;
   border-radius: 50%;
@@ -75,6 +75,7 @@ body {
   color: #3b2a08;
   font-weight: 800;
   box-shadow: 0 10px 18px rgba(0, 0, 0, 0.24);
+  transform: translate(-50%, -50%);
 }
 
 .deck-stack {
@@ -257,6 +258,12 @@ body {
   pointer-events: none;
 }
 
+.seat-buyin {
+  color: var(--muted);
+  font-size: 0.82rem;
+  pointer-events: none;
+}
+
 .seat-tag {
   color: var(--accent);
   font-size: 0.72rem;
@@ -276,30 +283,36 @@ body {
 .mini-card {
   width: 34px;
   height: 48px;
+  display: grid;
+  align-content: space-between;
+  padding: 4px;
   border-radius: 8px;
   box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18);
 }
 
-.mini-card-back {
-  border: 2px solid rgba(255, 255, 255, 0.78);
-  background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 58%),
-    linear-gradient(145deg, #0a2140, #0d2c54 45%, #07182c);
-  position: relative;
+.mini-card-face {
+  border: 2px solid rgba(20, 32, 43, 0.14);
+  background: #f8f2e7;
+  color: #182430;
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 
-.mini-card-back::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.mini-card-face small {
+  justify-self: end;
+  font-size: 0.82rem;
+  line-height: 1;
 }
 
 .seat-1 {
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.seat-1:hover,
+.seat-1:focus-visible {
+  transform: translateX(-50%) translateY(-2px);
 }
 
 .seat-2 {
@@ -321,6 +334,11 @@ body {
   bottom: 4%;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.seat-5:hover,
+.seat-5:focus-visible {
+  transform: translateX(-50%) translateY(-2px);
 }
 
 .seat-6 {

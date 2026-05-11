@@ -27,11 +27,11 @@ $seatCount = 8;
               class="seat seat-<?= $seat ?>"
               data-seat-number="<?= $seat ?>"
               data-default-name="Player <?= $seat ?>"
-              data-player-active="false"
               aria-label="Seat <?= $seat ?>"
             >
               <span class="seat-tag">Seat <?= $seat ?></span>
               <strong>Player <?= $seat ?></strong>
+              <small class="seat-buyin">Buy-in: --</small>
               <span class="seat-cards" aria-live="polite"></span>
             </button>
           <?php endfor; ?>
@@ -61,7 +61,7 @@ $seatCount = 8;
       const seats = document.querySelectorAll(".seat");
 
 
-// Player can now click on a seat and enter their name
+      // Player can now click on a seat and enter their name
       seats.forEach((seat) => {
         seat.addEventListener("click", () => {
           const currentName = seat.querySelector("strong").textContent.trim();
@@ -78,24 +78,43 @@ $seatCount = 8;
 
           const cleanedName = enteredName.trim();
           seat.querySelector("strong").textContent = cleanedName || defaultName;
-          seat.dataset.playerActive = cleanedName ? "true" : "false";
+
+          if (!cleanedName) {
+            seat.querySelector(".seat-buyin").textContent = "Buy-in: --";
+            delete seat.dataset.buyin;
+            return;
+          }
+
+          const currentBuyin = seat.dataset.buyin || "";
+          const enteredBuyin = window.prompt(
+            `Enter buy-in amount for ${cleanedName}:`,
+            currentBuyin
+          );
+
+          if (enteredBuyin === null) {
+            return;
+          }
+
+          const cleanedBuyin = enteredBuyin.trim();
+          seat.querySelector(".seat-buyin").textContent = cleanedBuyin
+            ? `Buy-in: $${cleanedBuyin}`
+            : "Buy-in: --";
+          seat.dataset.buyin = cleanedBuyin;
         });
       });
-// Deal Button
+      
+      // Deal Button
+      dealButton.style.left = "50%"
+      dealButton.style.top = "67%";
+      dealButton.style.transform = "translate(-50%, -40%)";
       dealButton.addEventListener("click", () => {
-        const activeSeat = Array.from(seats).find((seat) => seat.dataset.playerActive === "true");
-
-// Will check if a there are any seats occupied
-        if (!activeSeat) {
-          window.alert("Add one player name to a seat before dealing.");
-          return;
-        }
-
-        activeSeat.querySelector(".seat-cards").innerHTML = "";
+        seats.forEach((seat) => {
+          seat.querySelector(".seat-cards").innerHTML = "";
+          
+        });
 
         const formData = new FormData();
-        formData.append("seat_number", activeSeat.dataset.seatNumber);
-
+        formData.append("player_count", seats.length);   
         fetch(dealEndpoint, {
           method: "POST",
           body: formData,
@@ -107,19 +126,23 @@ $seatCount = 8;
               return;
             }
 
-            for (let i = 0; i < data.cardCount; i += 1) {
-              activeSeat.querySelector(".seat-cards").append(createFaceDownCard());
-            }
+            seats.forEach((seat, seatIndex) => {
+              const dealtCards = data.deals[seatIndex] || [];
+
+              dealtCards.forEach((card) => {
+                seat.querySelector(".seat-cards").append(createFaceUpCard(card));
+              });
+            });
           })
           .catch(() => {
             window.alert("Could not connect to the deal endpoint.");
           });
       });
 
-      function createFaceDownCard() {
+      function createFaceUpCard(card) {
         const cardElement = document.createElement("span");
-        cardElement.className = "mini-card mini-card-back";
-        cardElement.setAttribute("aria-hidden", "true");
+        cardElement.className = "mini-card mini-card-face";
+        cardElement.innerHTML = `<span>${card.rank}</span><small>${card.suit}</small>`;
         return cardElement;
       }
     </script>
