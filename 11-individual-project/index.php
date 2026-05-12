@@ -79,6 +79,7 @@ $seatCount = 8;
           const cleanedName = enteredName.trim();
           seat.querySelector("strong").textContent = cleanedName || defaultName;
 
+          // Buy in stuff
           if (!cleanedName) {
             seat.querySelector(".seat-buyin").textContent = "Buy-in: --";
             delete seat.dataset.buyin;
