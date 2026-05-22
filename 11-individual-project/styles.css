@@ -62,20 +62,47 @@ body {
   pointer-events: none;
 }
 
+.seat-role-markers {
+  min-height: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
 .dealer-chip {
-  position: absolute;
-  top: 23%;
-  left: 80%;
-  width: 52px;
-  height: 52px;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: radial-gradient(circle at 35% 30%, #fff4c4, #f2bf37 60%, #b67d11);
   color: #3b2a08;
   font-weight: 800;
+  font-size: 0.82rem;
   box-shadow: 0 10px 18px rgba(0, 0, 0, 0.24);
-  transform: translate(-50%, -50%);
+}
+
+.blind-chip {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #f8fbff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.22);
+}
+
+.small-blind-chip {
+  background: radial-gradient(circle at 35% 30%, #ff9e9e, #d64545 62%, #7d1616);
+}
+
+.big-blind-chip {
+  background: radial-gradient(circle at 35% 30%, #8fd3ff, #2f89d8 62%, #174a7d);
 }
 
 .deck-stack {
@@ -89,10 +116,10 @@ body {
 .deal-button {
   position: absolute;
   left: 50%;
-  bottom: 20%;
+  top: 67%;
   transform: translateX(-50%);
   min-width: 120px;
-  padding: 12px 20px;
+  padding: 8px 20px;
   border: 0;
   border-radius: 999px;
   background: linear-gradient(180deg, #ffd978, #e7b93f);
@@ -225,10 +252,10 @@ body {
 
 .seat {
   position: absolute;
-  width: 166px;
-  padding: 12px 14px;
+  width: 150px;
+  padding: 10px 12px;
   display: grid;
-  gap: 6px;
+  gap: 5px;
   text-align: center;
   border-radius: 22px;
   background: rgba(8, 20, 29, 0.7);
@@ -253,30 +280,30 @@ body {
 }
 
 .seat strong {
-  font-size: 1rem;
+  font-size: 0.95rem;
   margin: 0;
   pointer-events: none;
 }
 
 .seat-buyin {
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   pointer-events: none;
 }
 
 .seat-tag {
   color: var(--accent);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   pointer-events: none;
 }
 
 .seat-cards {
-  min-height: 48px;
+  min-height: 44px;
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   pointer-events: none;
 }
 
@@ -293,7 +320,6 @@ body {
 .mini-card-face {
   border: 2px solid rgba(20, 32, 43, 0.14);
   background: #f8f2e7;
-  color: #182430;
   font-size: 0.95rem;
   font-weight: 800;
 }
@@ -302,6 +328,14 @@ body {
   justify-self: end;
   font-size: 0.82rem;
   line-height: 1;
+}
+
+.mini-card-black {
+  color: #182430;
+}
+
+.mini-card-red {
+  color: #b42318;
 }
 
 .seat-1 {
@@ -368,7 +402,6 @@ body {
   .table-rim,
   .deck-stack,
   .deal-button,
-  .dealer-chip,
   .seat {
     position: static;
     transform: none;
@@ -377,11 +410,6 @@ body {
 
   .table-rim {
     display: none;
-  }
-
-  .dealer-chip {
-    justify-self: center;
-    order: 2;
   }
 
   .deck-stack {
@@ -403,8 +431,7 @@ body {
   }
 
   .deck-stack,
-  .deal-button,
-  .dealer-chip {
+  .deal-button {
     grid-column: 1 / -1;
   }
 }

@@ -30,6 +30,7 @@ $seatCount = 8;
               aria-label="Seat <?= $seat ?>"
             >
               <span class="seat-tag">Seat <?= $seat ?></span>
+              <span class="seat-role-markers" aria-hidden="true"></span>
               <strong>Player <?= $seat ?></strong>
               <small class="seat-buyin">Buy-in: --</small>
               <span class="seat-cards" aria-live="polite"></span>
@@ -49,8 +50,6 @@ $seatCount = 8;
           <button type="button" class="deal-button" aria-label="Deal cards">
             Deal
           </button>
-
-          <div class="dealer-chip" aria-label="Dealer button">D</div>
         </div>
       </section>
     </main>
@@ -58,7 +57,10 @@ $seatCount = 8;
     <script>
       const dealEndpoint = "./deal.php";
       const dealButton = document.querySelector(".deal-button");
+      const deckStack = document.querySelector(".deck-stack");
       const seats = document.querySelectorAll(".seat");
+      let dealerSeatNumber = 1;
+      let handHasBeenDealt = false;
 
 
       // Player can now click on a seat and enter their name
@@ -68,6 +70,7 @@ $seatCount = 8;
           const defaultName = seat.dataset.defaultName;
           const suggestedName = currentName === defaultName ? "" : currentName;
           const enteredName = window.prompt(
+          
             `Enter your name Player ${seat.dataset.seatNumber}:`,
             suggestedName
           ); 
@@ -75,7 +78,7 @@ $seatCount = 8;
           if (enteredName === null) {
             return;
           }
-
+          
           const cleanedName = enteredName.trim();
           seat.querySelector("strong").textContent = cleanedName || defaultName;
 
@@ -105,17 +108,34 @@ $seatCount = 8;
       });
       
       // Deal Button
-      dealButton.style.left = "50%"
-      dealButton.style.top = "67%";
-      dealButton.style.transform = "translate(-50%, -40%)";
       dealButton.addEventListener("click", () => {
+        if (handHasBeenDealt) {
+          dealerSeatNumber = getSeatToRight(dealerSeatNumber);
+        }
+
+        renderRoleMarkers();
+
         seats.forEach((seat) => {
           seat.querySelector(".seat-cards").innerHTML = "";
           
         });
+        
+        // Confirms that there is a name and buy in amount for the player in that seat
+        const activeSeats = Array.from(seats).filter((seat) => {
+          const playerName = seat.querySelector("strong").textContent.trim();
+          const buyin = (seat.dataset.buyin || "").trim();
+          return playerName !== seat.dataset.defaultName && buyin !== "";
+        });
+
+        if (activeSeats.length === 0) {
+          window.alert("Add a player name and buy-in before dealing.");
+          return;
+        }
+
+        deckStack.style.display = "none";
 
         const formData = new FormData();
-        formData.append("player_count", seats.length);   
+        formData.append("player_count", activeSeats.length);   
         fetch(dealEndpoint, {
           method: "POST",
           body: formData,
@@ -126,14 +146,15 @@ $seatCount = 8;
               window.alert(data.message || "Could not deal cards.");
               return;
             }
-
-            seats.forEach((seat, seatIndex) => {
+            
+            activeSeats.forEach((seat, seatIndex) => {
               const dealtCards = data.deals[seatIndex] || [];
-
               dealtCards.forEach((card) => {
                 seat.querySelector(".seat-cards").append(createFaceUpCard(card));
               });
             });
+
+            handHasBeenDealt = true;
           })
           .catch(() => {
             window.alert("Could not connect to the deal endpoint.");
@@ -142,10 +163,37 @@ $seatCount = 8;
 
       function createFaceUpCard(card) {
         const cardElement = document.createElement("span");
-        cardElement.className = "mini-card mini-card-face";
+        cardElement.className = `mini-card mini-card-face ${card.color === "red" ? "mini-card-red" : "mini-card-black"}`;
         cardElement.innerHTML = `<span>${card.rank}</span><small>${card.suit}</small>`;
         return cardElement;
       }
+
+      function getSeatToRight(seatNumber) {
+        return seatNumber === 1 ? seats.length : seatNumber - 1;
+      }
+
+      function renderRoleMarkers() {
+        seats.forEach((seat) => {
+          seat.querySelector(".seat-role-markers").innerHTML = "";
+        });
+
+        const smallBlindSeat = getSeatToRight(dealerSeatNumber);
+        const bigBlindSeat = getSeatToRight(smallBlindSeat);
+
+        addRoleMarker(dealerSeatNumber, "dealer-chip", "D");
+        addRoleMarker(smallBlindSeat, "blind-chip small-blind-chip", "SB");
+        addRoleMarker(bigBlindSeat, "blind-chip big-blind-chip", "BB");
+      }
+
+      function addRoleMarker(seatNumber, className, label) {
+        const seat = document.querySelector(`.seat[data-seat-number="${seatNumber}"]`);
+        const marker = document.createElement("span");
+        marker.className = className;
+        marker.textContent = label;
+        seat.querySelector(".seat-role-markers").append(marker);
+      }
+
+      renderRoleMarkers();
     </script>
   </body>
 </html>
