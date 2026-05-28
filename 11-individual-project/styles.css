@@ -29,6 +29,31 @@ body {
   padding: 20px;
 }
 
+.table-header-bar {
+  width: min(1100px, 100%);
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-link,
+.login-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd978, #e7b93f);
+  color: #2d2206;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.login-status {
+  cursor: default;
+}
+
 .table-wrap {
   display: flex;
   justify-content: center;
@@ -307,6 +332,31 @@ body {
   pointer-events: none;
 }
 
+.seat-actions {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+.seat-actions.hidden,
+.seat-actions[hidden] {
+  display: none !important;
+}
+
+.seat-action-button {
+  min-height: 24px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd978, #e7b93f);
+  color: #2d2206;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
 .mini-card {
   width: 34px;
   height: 48px;
@@ -314,12 +364,14 @@ body {
   align-content: space-between;
   padding: 4px;
   border-radius: 8px;
-  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.85),
+    0 7px 14px rgba(0, 0, 0, 0.22);
 }
 
 .mini-card-face {
-  border: 2px solid rgba(20, 32, 43, 0.14);
-  background: #f8f2e7;
+  border: 2px solid rgba(20, 32, 43, 0.2);
+  background: #ffffff;
   font-size: 0.95rem;
   font-weight: 800;
 }
@@ -439,6 +491,12 @@ body {
 @media (max-width: 560px) {
   .table-scene {
     padding-inline: 14px;
+  }
+
+  .table-header-bar {
+    gap: 12px;
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .table-surface {

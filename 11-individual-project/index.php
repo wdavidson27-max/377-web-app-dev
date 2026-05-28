@@ -1,5 +1,10 @@
 <?php
+require_once __DIR__ . '/session.php';
+
+start_app_session();
+
 $seatCount = 8;
+$isLoggedIn = isset($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,16 +22,24 @@ $seatCount = 8;
   </head>
   <body>
     <main class="table-scene">
+      <section class="table-header-bar" aria-label="User session">
+        <?php if ($isLoggedIn): ?>
+          <span class="login-status">Logged In</span>
+        <?php else: ?>
+          <a class="login-link" href="./login.php">Log In</a>
+        <?php endif; ?>
+      </section>
       <section class="table-wrap" aria-label="Poker table">
         <div class="table-surface">
           <div class="table-rim"></div>
 
           <?php for ($seat = 1; $seat <= $seatCount; $seat++) : ?>
-            <button
-              type="button"
+            <div
               class="seat seat-<?= $seat ?>"
               data-seat-number="<?= $seat ?>"
               data-default-name="Player <?= $seat ?>"
+              role="button"
+              tabindex="0"
               aria-label="Seat <?= $seat ?>"
             >
               <span class="seat-tag">Seat <?= $seat ?></span>
@@ -34,7 +47,12 @@ $seatCount = 8;
               <strong>Player <?= $seat ?></strong>
               <small class="seat-buyin">Buy-in: --</small>
               <span class="seat-cards" aria-live="polite"></span>
-            </button>
+              <span class="seat-actions hidden" aria-label="Preflop actions" hidden>
+                <button type="button" class="seat-action-button">Check</button>
+                <button type="button" class="seat-action-button">Raise</button>
+                <button type="button" class="seat-action-button">Fold</button>
+              </span>
+            </div>
           <?php endfor; ?>
 
           <div class="deck-stack" aria-label="Face-down 52 card deck">
@@ -98,7 +116,7 @@ $seatCount = 8;
           if (enteredBuyin === null) {
             return;
           }
-
+          
           const cleanedBuyin = enteredBuyin.trim();
           seat.querySelector(".seat-buyin").textContent = cleanedBuyin
             ? `Buy-in: $${cleanedBuyin}`
@@ -106,25 +124,33 @@ $seatCount = 8;
           seat.dataset.buyin = cleanedBuyin;
         });
       });
-      
+
+      document.querySelectorAll(".seat-action-button").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+        });
+      });
+
       // Deal Button
       dealButton.addEventListener("click", () => {
         if (handHasBeenDealt) {
           dealerSeatNumber = getSeatToRight(dealerSeatNumber);
         }
-
+        
         renderRoleMarkers();
 
         seats.forEach((seat) => {
           seat.querySelector(".seat-cards").innerHTML = "";
+          const seatActions = seat.querySelector(".seat-actions");
+          seatActions.classList.add("hidden");
+          seatActions.hidden = true;
           
         });
-        
         // Confirms that there is a name and buy in amount for the player in that seat
         const activeSeats = Array.from(seats).filter((seat) => {
           const playerName = seat.querySelector("strong").textContent.trim();
           const buyin = (seat.dataset.buyin || "").trim();
-          return playerName !== seat.dataset.defaultName && buyin !== "";
+          return playerName !== seat.dataset.defaultName && buyin !== "";          
         });
 
         if (activeSeats.length === 0) {
@@ -147,14 +173,12 @@ $seatCount = 8;
               return;
             }
             
-            activeSeats.forEach((seat, seatIndex) => {
-              const dealtCards = data.deals[seatIndex] || [];
-              dealtCards.forEach((card) => {
-                seat.querySelector(".seat-cards").append(createFaceUpCard(card));
-              });
+            dealCardsToSeats(activeSeats, data.deals).then(() => {
+              const firstPlayerActions = activeSeats[0].querySelector(".seat-actions");
+              firstPlayerActions.classList.remove("hidden");
+              firstPlayerActions.hidden = false;
+              handHasBeenDealt = true;
             });
-
-            handHasBeenDealt = true;
           })
           .catch(() => {
             window.alert("Could not connect to the deal endpoint.");
@@ -163,9 +187,36 @@ $seatCount = 8;
 
       function createFaceUpCard(card) {
         const cardElement = document.createElement("span");
-        cardElement.className = `mini-card mini-card-face ${card.color === "red" ? "mini-card-red" : "mini-card-black"}`;
+        cardElement.className = `mini-card mini-card face ${card.color === "red" ? "mini-card-red" : "mini-card-black"}`;
         cardElement.innerHTML = `<span>${card.rank}</span><small>${card.suit}</small>`;
         return cardElement;
+      }
+
+      function dealCardsToSeats(activeSeats, deals) {
+        const cardsPerPlayer = 2;
+        const dealDelay = 150;
+        let delay = 0;
+        const dealSteps = [];
+
+        for (let cardIndex = 0; cardIndex < cardsPerPlayer; cardIndex += 1) {
+          activeSeats.forEach((seat, seatIndex) => {
+            const card = deals[seatIndex]?.[cardIndex];
+
+            if (!card) {
+              return;
+            }
+
+            delay += dealDelay;
+            dealSteps.push(new Promise((resolve) => {
+              setTimeout(() => {
+                seat.querySelector(".seat-cards").append(createFaceUpCard(card));
+                resolve();
+              }, delay);
+            }));
+          });
+        }
+
+        return Promise.all(dealSteps);
       }
 
       function getSeatToRight(seatNumber) {
@@ -191,6 +242,7 @@ $seatCount = 8;
         marker.className = className;
         marker.textContent = label;
         seat.querySelector(".seat-role-markers").append(marker);
+        
       }
 
       renderRoleMarkers();
