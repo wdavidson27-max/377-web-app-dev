@@ -5,6 +5,8 @@ start_app_session();
 
 $seatCount = 8;
 $isLoggedIn = isset($_SESSION['user_id']);
+$loggedInPlayerEmail = $_SESSION['user_email'] ?? '';
+$loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +36,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
           <div class="table-rim"></div>
 
           <?php for ($seat = 1; $seat <= $seatCount; $seat++) : ?>
+            <?php $isLoggedInSeat = $isLoggedIn && $seat === 1; ?>
             <div
               class="seat seat-<?= $seat ?>"
               data-seat-number="<?= $seat ?>"
@@ -44,7 +47,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
             >
               <span class="seat-tag">Seat <?= $seat ?></span>
               <span class="seat-role-markers" aria-hidden="true"></span>
-              <strong>Player <?= $seat ?></strong>
+              <strong><?= htmlspecialchars($isLoggedInSeat ? $loggedInPlayerName : "Player $seat", ENT_QUOTES, 'UTF-8') ?></strong>
               <small class="seat-buyin">Buy-in: --</small>
               <span class="seat-cards" aria-live="polite"></span>
               <span class="seat-actions hidden" aria-label="Preflop actions" hidden>

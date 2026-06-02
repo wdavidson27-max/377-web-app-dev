@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: ./index.php');
                 exit;
             }
-
+            
             $errorMessage = 'Incorrect password for that email.';
         } else {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
