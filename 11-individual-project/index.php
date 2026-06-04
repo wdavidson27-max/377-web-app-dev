@@ -20,13 +20,13 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=<?= time() ?>" />
   </head>
   <body>
     <main class="table-scene">
       <section class="table-header-bar" aria-label="User session">
         <?php if ($isLoggedIn): ?>
-          <span class="login-status">Logged In</span>
+          <span class="login-status"><?= htmlspecialchars($loggedInPlayerName, ENT_QUOTES, 'UTF-8') ?></span>
         <?php else: ?>
           <a class="login-link" href="./login.php">Log In</a>
         <?php endif; ?>
@@ -51,9 +51,9 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
               <small class="seat-buyin">Buy-in: --</small>
               <span class="seat-cards" aria-live="polite"></span>
               <span class="seat-actions hidden" aria-label="Preflop actions" hidden>
-                <button type="button" class="seat-action-button">Check</button>
-                <button type="button" class="seat-action-button">Raise</button>
-                <button type="button" class="seat-action-button">Fold</button>
+                <button type="button" class="seat-action-button" data-action="check">Check</button>
+                <button type="button" class="seat-action-button" data-action="raise">Raise</button>
+                <button type="button" class="seat-action-button" data-action="fold">Fold</button>
               </span>
             </div>
           <?php endfor; ?>
@@ -68,6 +68,10 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
             </div>
           </div>
 
+          <div class="community-cards hidden" aria-label="Flop cards">
+            <span class="community-card-row"></span>
+          </div>
+
           <button type="button" class="deal-button" aria-label="Deal cards">
             Deal
           </button>
@@ -79,9 +83,17 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
       const dealEndpoint = "./deal.php";
       const dealButton = document.querySelector(".deal-button");
       const deckStack = document.querySelector(".deck-stack");
+      const communityCards = document.querySelector(".community-cards");
       const seats = document.querySelectorAll(".seat");
       let dealerSeatNumber = 1;
       let handHasBeenDealt = false;
+      let activeHandSeats = [];
+      let currentActionIndex = 0;
+      let currentRaiseAmount = "";
+      let raiserSeat = null;
+      let isCallRound = false;
+      let flopCards = [];
+      let actionsRemaining = 0;
 
 
       // Player can now click on a seat and enter their name
@@ -127,10 +139,11 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
           seat.dataset.buyin = cleanedBuyin;
         });
       });
-
+      
       document.querySelectorAll(".seat-action-button").forEach((button) => {
         button.addEventListener("click", (event) => {
           event.stopPropagation();
+          handlePlayerAction(button);
         });
       });
 
@@ -141,13 +154,17 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
         }
         
         renderRoleMarkers();
+        communityCards.querySelector(".community-card-row").innerHTML = "";
+        communityCards.classList.add("hidden");
+        communityCards.classList.remove("is-visible");
+        communityCards.style.display = "";
+        askLoggedInSeatForBuyin();
 
         seats.forEach((seat) => {
           seat.querySelector(".seat-cards").innerHTML = "";
-          const seatActions = seat.querySelector(".seat-actions");
-          seatActions.classList.add("hidden");
-          seatActions.hidden = true;
-          
+          seat.querySelectorAll(".raise-chip").forEach((chip) => chip.remove());
+          hideSeatActions(seat);
+               
         });
         // Confirms that there is a name and buy in amount for the player in that seat
         const activeSeats = Array.from(seats).filter((seat) => {
@@ -160,7 +177,7 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
           window.alert("Add a player name and buy-in before dealing.");
           return;
         }
-
+        
         deckStack.style.display = "none";
 
         const formData = new FormData();
@@ -177,22 +194,242 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
             }
             
             dealCardsToSeats(activeSeats, data.deals).then(() => {
-              const firstPlayerActions = activeSeats[0].querySelector(".seat-actions");
-              firstPlayerActions.classList.remove("hidden");
-              firstPlayerActions.hidden = false;
+              activeHandSeats = activeSeats;
+              currentActionIndex = 0;
+              currentRaiseAmount = "";
+              raiserSeat = null;
+              isCallRound = false;
+              flopCards = Array.isArray(data.flop) ? data.flop : [];
+              actionsRemaining = activeSeats.length;
+              showCurrentPlayerActions();
               handHasBeenDealt = true;
             });
           })
           .catch(() => {
             window.alert("Could not connect to the deal endpoint.");
-          });
+        });
       });
+
+      function askLoggedInSeatForBuyin() {
+        const loggedInSeat = document.querySelector(".seat-1");
+        const playerName = loggedInSeat.querySelector("strong").textContent.trim();
+
+        if (playerName === loggedInSeat.dataset.defaultName || (loggedInSeat.dataset.buyin || "").trim() !== "") {
+          return;
+        }
+
+        const enteredBuyin = window.prompt(
+          `Enter buy-in amount for ${playerName}:`,
+          ""
+        );
+
+        if (enteredBuyin === null) {
+          return;
+        }
+
+        const cleanedBuyin = enteredBuyin.trim();
+        loggedInSeat.querySelector(".seat-buyin").textContent = cleanedBuyin
+          ? `Buy-in: $${cleanedBuyin}`
+          : "Buy-in: --";
+        loggedInSeat.dataset.buyin = cleanedBuyin;
+      }
 
       function createFaceUpCard(card) {
         const cardElement = document.createElement("span");
-        cardElement.className = `mini-card mini-card face ${card.color === "red" ? "mini-card-red" : "mini-card-black"}`;
-        cardElement.innerHTML = `<span>${card.rank}</span><small>${card.suit}</small>`;
+        cardElement.className = `mini-card mini-card-face ${card.color === "red" ? "mini-card-red" : "mini-card-black"}`;
+        cardElement.innerHTML = `<span>${card.rank}</span><small>${card.suit}</small>`; 
         return cardElement;
+      }
+
+      function handlePlayerAction(button) {
+        const action = button.dataset.action;
+        const activeSeat = activeHandSeats[currentActionIndex];
+
+        if (!activeSeat) {
+          return;
+        }
+
+        if (action === "raise") {
+          const playerName = activeSeat.querySelector("strong").textContent.trim();
+          const raiseAmount = window.prompt(`How much does ${playerName} want to raise?`);
+          
+          if (raiseAmount === null) {
+            return;
+          }
+          
+          const cleanedRaiseAmount = raiseAmount.trim();
+
+          if (cleanedRaiseAmount === "") {
+            window.alert("Enter a raise first.");            
+            return;
+          }
+
+          if (!subtractFromBuyin(activeSeat, cleanedRaiseAmount)) {
+            return;
+          }
+
+          currentRaiseAmount = cleanedRaiseAmount;
+          raiserSeat = activeSeat;
+          isCallRound = true;
+          actionsRemaining = activeHandSeats.length - 1;
+          showRaiseChip(activeSeat, cleanedRaiseAmount);
+          currentActionIndex = (currentActionIndex + 1) % activeHandSeats.length;
+          showCurrentPlayerActions();
+          return;
+        } 
+        
+        if (action === "fold") {
+          activeSeat.querySelector(".seat-cards").innerHTML = "";
+          actionsRemaining -= 1;
+          activeHandSeats.splice(currentActionIndex, 1);
+
+          if (activeHandSeats.length <= 1) {
+            hideAllSeatActions();
+            window.alert("Hand is over.");
+            return;
+          }
+
+          if (currentActionIndex >= activeHandSeats.length) {
+            currentActionIndex = 0;
+          }
+
+          advancePreflopAction();
+          return;
+        } else if (action === "call") {
+          if (!subtractFromBuyin(activeSeat, currentRaiseAmount)) {
+            return;
+          }
+
+          actionsRemaining -= 1;
+          currentActionIndex = (currentActionIndex + 1) % activeHandSeats.length;
+          advancePreflopAction();
+          return;
+        } else {
+          actionsRemaining -= 1;
+          currentActionIndex = (currentActionIndex + 1) % activeHandSeats.length;
+          advancePreflopAction();
+          return;
+        }
+      }
+
+      function advancePreflopAction() {
+        if (actionsRemaining <= 0 && activeHandSeats.length >= 2) {
+          completePreflopAction();
+          return;
+        }
+
+        if (isCallRound && activeHandSeats[currentActionIndex] === raiserSeat) {
+          completePreflopAction();
+          return;
+        }
+
+        if (actionsRemaining <= 0) {
+          completePreflopAction();
+          return;
+        }
+
+        showCurrentPlayerActions();
+      }
+
+      function completePreflopAction() {
+        hideAllSeatActions();
+        isCallRound = false;
+
+        if (activeHandSeats.length >= 2) {
+          showFlopCards();
+          return;
+        }
+
+        window.alert("Hand is over.");
+      }
+
+      function showFlopCards() {
+        const communityCardRow = communityCards.querySelector(".community-card-row");
+        communityCardRow.innerHTML = "";
+
+        if (flopCards.length < 3) {
+          window.alert("The flop cards were not returned by deal.php.");
+          return;
+        }
+
+        flopCards.forEach((card) => {
+          communityCardRow.append(createFaceUpCard(card));
+        });
+
+        communityCards.classList.remove("hidden");
+        communityCards.classList.add("is-visible");
+        communityCards.style.display = "flex";
+      }
+      // Lines 278 to 316 generated by AI
+      function showCurrentPlayerActions() {
+        hideAllSeatActions();
+        const activeSeat = activeHandSeats[currentActionIndex];
+
+        if (!activeSeat) {
+          return;
+        }
+
+        const seatActions = activeSeat.querySelector(".seat-actions");
+        updateActionButtons(seatActions);
+        seatActions.classList.remove("hidden");
+        seatActions.hidden = false;
+      }
+
+      function updateActionButtons(seatActions) {
+        const checkButton = seatActions.querySelector('[data-action="check"], [data-action="call"]');
+        const raiseButton = seatActions.querySelector('[data-action="raise"]');
+
+        if (isCallRound) {
+          checkButton.textContent = `Call $${currentRaiseAmount}`;
+          checkButton.dataset.action = "call";
+          raiseButton.hidden = true;
+          return;
+        }
+
+        checkButton.textContent = "Check";
+        checkButton.dataset.action = "check";
+        raiseButton.hidden = false;
+      }
+
+      function showRaiseChip(seat, amount) {
+        seat.querySelectorAll(".raise-chip").forEach((chip) => chip.remove());
+
+        const raiseChip = document.createElement("span");
+        raiseChip.className = "raise-chip";
+        raiseChip.textContent = `$${amount}`;
+        seat.querySelector(".seat-role-markers").append(raiseChip);
+      }
+
+      function subtractFromBuyin(seat, amount) {
+        const currentBuyin = Number(seat.dataset.buyin);
+        const betAmount = Number(amount);
+
+        if (!Number.isFinite(currentBuyin) || !Number.isFinite(betAmount) || betAmount <= 0) {
+          window.alert("Enter a valid dollar amount.");
+          return false;
+        }
+
+        if (betAmount > currentBuyin) {
+          window.alert("That player does not have enough buy-in left.");
+          return false;
+        }
+
+        const updatedBuyin = currentBuyin - betAmount;
+        seat.dataset.buyin = String(updatedBuyin);
+        seat.querySelector(".seat-buyin").textContent = `Buy-in: $${updatedBuyin}`;
+        return true;
+      }
+
+      function hideAllSeatActions() {
+        seats.forEach((seat) => {
+          hideSeatActions(seat);
+        });
+      }
+
+      function hideSeatActions(seat) {
+        const seatActions = seat.querySelector(".seat-actions");
+        seatActions.classList.add("hidden");
+        seatActions.hidden = true;
       }
 
       function dealCardsToSeats(activeSeats, deals) {
@@ -221,7 +458,7 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
 
         return Promise.all(dealSteps);
       }
-
+      
       function getSeatToRight(seatNumber) {
         return seatNumber === 1 ? seats.length : seatNumber - 1;
       }

@@ -47,7 +47,10 @@ for ($i = 0; $i < $playerCount; $i++) {
     $deals[] = [array_pop($deck), array_pop($deck)];
 }
 
+$flop = [array_pop($deck), array_pop($deck), array_pop($deck)];
+
 echo json_encode([
     'ok' => true,
     'deals' => $deals,
+    'flop' => $flop,
 ]);

@@ -130,12 +130,73 @@ body {
   background: radial-gradient(circle at 35% 30%, #8fd3ff, #2f89d8 62%, #174a7d);
 }
 
+.raise-chip {
+  flex: 0 0 auto;
+  min-width: 42px;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fff0a8, #e38f20 62%, #8a4b0c);
+  color: #2d1904;
+  font-size: 0.64rem;
+  font-weight: 800;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.22);
+}
+
 .deck-stack {
   position: absolute;
   inset: 50%;
   width: 126px;
   height: 176px;
   transform: translate(-50%, -50%);
+}
+
+.community-cards {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  z-index: 5;
+}
+
+.community-cards.hidden {
+  display: none;
+}
+
+.community-cards.is-visible {
+  display: flex !important;
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+  z-index: 999;
+}
+
+.community-card-row {
+  display: flex;
+  gap: 12px;
+}
+
+.community-card-row .mini-card {
+  width: 54px;
+  height: 76px;
+  padding: 7px;
+  border-radius: 11px;
+}
+
+.community-card-row .mini-card-face {
+  font-size: 1.35rem;
+}
+
+.community-card-row .mini-card-face small {
+  font-size: 1.08rem;
 }
 
 .deal-button {
@@ -453,6 +514,7 @@ body {
 
   .table-rim,
   .deck-stack,
+  .community-cards,
   .deal-button,
   .seat {
     position: static;
@@ -469,9 +531,14 @@ body {
     order: 1;
   }
 
-  .deal-button {
+  .community-cards {
     justify-self: center;
     order: 2;
+  }
+
+  .deal-button {
+    justify-self: center;
+    order: 3;
   }
 
   .seat {
@@ -483,6 +550,7 @@ body {
   }
 
   .deck-stack,
+  .community-cards,
   .deal-button {
     grid-column: 1 / -1;
   }
