@@ -16,7 +16,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $connection = get_connection();
 $userId = (int) $_SESSION['user_id'];
-
+// This is where the php updates and keeps track of users stats
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $winnings = max(0, (int) ($_POST['winnings'] ?? 0));
     $losses = max(0, (int) ($_POST['losses'] ?? 0));

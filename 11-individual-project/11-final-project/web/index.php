@@ -1,3 +1,5 @@
+
+<!-- Example of pHp in the code beginning the session and checking if user is logged in -->
 <?php
 require_once __DIR__ . '/session.php';
 
@@ -22,6 +24,8 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
     />
     <link rel="stylesheet" href="./styles.css?v=<?= time() ?>" />
   </head>
+
+  <!-- HTML Page structure -->
   <body>
     <main class="table-scene">
       <section class="table-header-bar" aria-label="User session">
@@ -379,7 +383,7 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
       function isValidBuyinAmount(amount) {
         return /^[0-9]+$/.test(amount);
       }
-
+// This is all of the stuff with the blind chips
       function postBlinds(activeSeats) {
         resetRoundBets();
         const smallBlindSeatNumber = getSeatToRight(dealerSeatNumber);
@@ -545,7 +549,7 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
           window.alert("Hand is over.");
           return;
         }
-
+// Goes through the betting rounds, lot of repetition here
         if (bettingRound === "preflop") {
           showFlopCards();
           startBettingRound("flop");
@@ -779,7 +783,7 @@ $loggedInPlayerName = $isLoggedIn ? explode('@', $loggedInPlayerEmail)[0] : '';
         if (cards.length < 2) {
           return 0.25;
         }
-
+// Determines card hand strength at showdown to determine the winner
         const rankValues = {
           "2": 2,
           "3": 3,

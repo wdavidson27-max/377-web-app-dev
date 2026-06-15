@@ -20,7 +20,7 @@ if ($playerCount < 1 || $playerCount > 8) {
     ]);
     exit;
 }
-
+// Back end php creating and shuffling the deck and returing cards as JSON
 $suits = [
     ['symbol' => '♠', 'color' => 'black'],
     ['symbol' => '♥', 'color' => 'red'],

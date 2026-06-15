@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS poker;
 USE poker;
 
+-- This is the table that stores all of the users info so their stats can be tracked
 CREATE TABLE IF NOT EXISTS `users` (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
